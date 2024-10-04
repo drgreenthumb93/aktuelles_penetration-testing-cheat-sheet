@@ -1086,7 +1086,7 @@ Get a free [Nessus Community](https://community.tenable.com/s/article/Nessus-Ess
 * [calculator.net/ip-subnet-calculator.html](https://www.calculator.net/ip-subnet-calculator.html)
 * [speedguide.net/ports.php](https://www.speedguide.net/ports.php)
 * [securityheaders.com](https://securityheaders.com)
-* [csp-evaluator.withgoogle.com](https://csp-evaluator.withgoogle.com) (Content Security Policy evaluator)
+* [csp-evaluator.withgoogle.com](https://csp-evaluator.withgoogle.com) - Content Security Policy evaluator
 
 ### Nmap
 
@@ -1241,12 +1241,12 @@ If you see any amounts or quantities, try to use [danielmiessler/SecLists/tree/m
 * [exploit-db.com](https://www.exploit-db.com)
 * [cxsecurity.com](https://cxsecurity.com/wlb)
 * [hakluke/weaponised-XSS-payloads](https://github.com/hakluke/weaponised-XSS-payloads)
-* [namecheap.com](https://www.namecheap.com) (buy domains for cheap)
-* [streaak/keyhacks](https://github.com/streaak/keyhacks) (validate API keys)
+* [namecheap.com](https://www.namecheap.com) - buy domains for cheap
+* [streaak/keyhacks](https://github.com/streaak/keyhacks) - validate API keys
 * [swisskyrepo/PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
 * [jwt.io](https://jwt.io)
 * [portswigger.net/web-security](https://portswigger.net/web-security)
-* [bigiamchallenge.com](https://bigiamchallenge.com) (nice AWS CTF)
+* [bigiamchallenge.com](https://bigiamchallenge.com) - nice AWS CTF
 
 ### Collaborator Servers
 
@@ -1763,10 +1763,10 @@ You can find a bunch of useful wordlists in [SecLists](#wordlists).
 
 * [gchq.github.io/CyberChef](https://gchq.github.io/CyberChef)
 * [onlinehashcrack.com](https://www.onlinehashcrack.com)
-* [hashkiller.io/listmanager](https://hashkiller.io/listmanager) (has many other tools)
-* [hashes.com/en/decrypt/hash](https://hashes.com/en/decrypt/hash) (has many other tools)
+* [hashkiller.io/listmanager](https://hashkiller.io/listmanager) - has many other tools
+* [hashes.com/en/decrypt/hash](https://hashes.com/en/decrypt/hash) - has many other tools
 * [crackstation.net](https://crackstation.net)
-* [weakpass.com/wordlist](https://weakpass.com/wordlist) (lots of password dumps)
+* [weakpass.com/wordlist](https://weakpass.com/wordlist) - lots of password dumps
 * [packetstormsecurity.com/Crackers/wordlists](https://packetstormsecurity.com/Crackers/wordlists)
 
 ### crunch
@@ -2089,8 +2089,8 @@ Here you can find a bunch of random stuff.
 * [jsonlint.com](https://jsonlint.com)
 * [base64decode.org](https://www.base64decode.org)
 * [urldecoder.org](https://www.urldecoder.org)
-* [bitly.com](https://bitly.com) (URL shortener)
-* [getcreditcardnumbers.com](https://www.getcreditcardnumbers.com) (dummy credit card info)
+* [bitly.com](https://bitly.com- URL shortener
+* [getcreditcardnumbers.com](https://www.getcreditcardnumbers.com) - dummy credit card info
 
 ### cURL
 
