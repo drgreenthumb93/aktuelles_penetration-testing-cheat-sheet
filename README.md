@@ -8,13 +8,13 @@ For help with any of the tools write `<tool_name> [-h | -hh | --help]` or `man <
 
 Sometimes `-h` can be mistaken for a host or some other option. If that's the case, use `-hh` or `--help` instead, or read the manual with `man`.
 
-Some tools do similar tasks, but get slightly different results. Run everything you can. Many tools complement each other!
+Some tools do similar tasks, but get slightly different results. Run everything you can. Many tools also complement each other!
 
 Keep in mind when no protocol nor port number in a URL is specified, i.e., if you specify only `somesite.com`, some tools will default to HTTP protocol and port 80.
 
 If you didn't already, read [OWASP Web Security Testing Guide](https://github.com/OWASP/wstg). Checklist can be downloaded [here](https://github.com/OWASP/wstg/tree/master/checklists).
 
-Highly recommend reading [Common Security Issues in Financially-Orientated Web](https://research.nccgroup.com/wp-content/uploads/2020/07/common_security_issues_in_financially-orientated_web.pdf).
+Highly recommend reading [Common Security Issues in Financially-Orientated Web](https://soroush.me/downloadable/common-security-issues-in-financially-orientated-web-applications.pdf).
 
 Websites that you should use while writing the report:
 
@@ -23,7 +23,6 @@ Websites that you should use while writing the report:
 * [owasp.org/www-project-top-ten](https://owasp.org/www-project-top-ten)
 * [cheatsheetseries.owasp.org](https://cheatsheetseries.owasp.org/Glossary.html)
 * [first.org/cvss/calculator/4.0](https://www.first.org/cvss/calculator/4.0)
-* [nvd.nist.gov/vuln-metrics/cvss/v3-calculator](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator)
 * [nvd.nist.gov/ncp/repository](https://nvd.nist.gov/ncp/repository)
 * [attack.mitre.org](https://attack.mitre.org)
 
