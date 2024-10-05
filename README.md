@@ -65,7 +65,8 @@ My other cheat sheets:
 * [Chad](#chad)
 * [PhoneInfoga](#phoneinfoga)
 * [git-dumper](#git-dumper)
-* [TruffleHog](#trufflehog)
+* [TruffleHog](#trufflehog)ž
+* [File Scraper](#file-scraper)
 * [katana](#katana)
 * [Scrapy Scraper](#scrapy-scraper)
 * [Directory Fuzzing](#directory-fuzzing)
@@ -794,10 +795,12 @@ intext:-----BEGIN PGP PRIVATE KEY BLOCK----- (ext:pem OR ext:key OR ext:txt)
 
 ### Chad
 
-Find and download files using Google Dorks:
+Find and download files using a Google Dork:
 
 ```fundamental
-chad -nsos -dir chad_results -tr 100 -q "ext:txt OR ext:pdf OR ext:doc OR ext:docx OR ext:xls OR ext:xlsx" -s *.somedomain.com -o chad_results.json
+mkdir chad_downloads
+
+chad -nsos -o chad_downloads_results.json -dir chad_downloads -tr 100 -q "ext:txt OR ext:pdf OR ext:doc OR ext:docx OR ext:xls OR ext:xlsx" -s *.somedomain.com
 ```
 
 Extract authors (and more) from the files:
@@ -808,10 +811,10 @@ apt-get -y install libimage-exiftool-perl
 exiftool -S chad_results | grep -Po '(?<=Author\:\ ).+' | sort -uf | tee -a people.txt
 ```
 
-Run a single Google Dork:
+Find directory listings using a Google Dork:
 
 ```fundamental
-chad -nsos -q 'intitle:"index of /" intext:"parent directory"' -s *.somedomain.com
+chad -nsos chad_directory_listings_results.json -tr 100 -q 'intitle:"index of /" intext:"parent directory"' -s *.somedomain.com
 ```
 
 More about my project at [ivan-sincek/chad](https://github.com/ivan-sincek/chad).
@@ -883,6 +886,12 @@ trufflehog filesystem somefile_1.txt somefile_2.txt somedir1 somedir2
 ```
 
 More about the project at [trufflesecurity/trufflehog](https://github.com/trufflesecurity/trufflehog).
+
+## File Scraper
+
+TO DO: Finish.
+
+More about the project at [ivan-sincek/file-scraper](https://github.com/ivan-sincek/file-scraper).
 
 ### katana
 
