@@ -65,7 +65,7 @@ My other cheat sheets:
 * [Chad](#chad)
 * [PhoneInfoga](#phoneinfoga)
 * [git-dumper](#git-dumper)
-* [TruffleHog](#trufflehog)ž
+* [TruffleHog](#trufflehog)
 * [File Scraper](#file-scraper)
 * [katana](#katana)
 * [Scrapy Scraper](#scrapy-scraper)
