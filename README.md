@@ -468,7 +468,7 @@ amass enum -o amass_results.txt -trf resolvers.txt -d somedomain.com
 
 **Amass has built-in DNS resolvers.**
 
-To find ASNs from IPs and CIDRs from ASNs, use [WHOIS](#whois-asn-cidr). The below ASN and CIDR scans will take a long time to finish. **The results might not be all within your scope!**
+To find ASNs from IPs and CIDRs from ASNs, use [WHOIS](#whois-asn-cidr). The below ASN and CIDR scans will take a long time to finish. **The results might not be all within your scope allowed by the client!**
 
 Gather subdomains from [ASN](https://www.arin.net/resources/guide/asn):
 
